@@ -38,12 +38,13 @@ def deposit():
     if account_holder_name in account_holders:
         index = account_holders.index(account_holder_name)
         list(map(int, balances))
-        deposit_amount = input("Please input amount to deposit: ")
+        deposit_amount = int(input("Please input amount to deposit: "))
     # 4. Update the account's balance with the deposited amount.
         balances[index] = balances[index] + deposit_amount
     # 5. Log the transaction in the account's transaction history.
         transaction_histories[index] += f'Deposited {deposit_amount} '
     # 6. Display the updated balance to the user.
+        print(f'Successful deposit!')
         print(f'Current balance: {balances[index]}')
     # 7. If the account does not exist, inform the user.
     else:
@@ -98,7 +99,7 @@ def list_accounts():
             print(f'Balance: {balances[index]}', end="; ")
             print(f'Outstanding loans: {loans[index]}')
     else:
-    print(f'There are no registered accounts')
+        print(f'There are no registered accounts')
     # 2. If there are accounts, loop through each account holder.
     # 3. Display the account holder's name, balance, and outstanding loan amount.
     # 4. If there are no accounts, inform the user.
@@ -246,3 +247,6 @@ def main():
             break  # Exit the loop and terminate the program
         else:
             print("Invalid choice. Please try again.")
+
+
+main()
