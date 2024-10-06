@@ -42,7 +42,7 @@ def deposit():
     # 4. Update the account's balance with the deposited amount.
         balances[index] = balances[index] + deposit_amount
     # 5. Log the transaction in the account's transaction history.
-        transaction_histories[index] = transaction_histories[index] + f'Deposited {deposit_amount}'
+        transaction_histories[index] += f'Deposited {deposit_amount} '
     # 6. Display the updated balance to the user.
         print(f'Current balance: {balances[index]}')
     # 7. If the account does not exist, inform the user.
@@ -62,7 +62,7 @@ def withdraw():
         withdraw_amount = int(input("Please input amount to withdraw: "))
         if balances[index] >= withdraw_amount:
             balances[index] = balances[index] - withdraw_amount
-            transaction_histories[index] = transaction_histories[index] + f'Withdraw {withdraw_amount}'
+            transaction_histories[index] += f'Withdraw {withdraw_amount} '
             print(f'Current balance: {balances[index]}')
         else:
             print(f'Cannot withdraw. Insufficient funds!')
@@ -92,6 +92,13 @@ def check_balance():
 def list_accounts():
     """List all accounts and their balances."""
     # 1. Check if there are any accounts in the system.
+    if len(account_holders) != 0:
+        for index, account in enumerate(account_holders):
+            print(f'Account holder: {account_holders[index]}', end="; ")
+            print(f'Balance: {balances[index]}', end="; ")
+            print(f'Outstanding loans: {loans[index]}')
+    else:
+    print(f'There are no registered accounts')
     # 2. If there are accounts, loop through each account holder.
     # 3. Display the account holder's name, balance, and outstanding loan amount.
     # 4. If there are no accounts, inform the user.
@@ -100,6 +107,22 @@ def list_accounts():
 def transfer_funds():
     """Transfer funds between two accounts."""
     # 1. Prompt the user for the sender's and recipient's account holder names.
+    sender_account_name = input("Input sender account name: ")
+    recipient_account_name = input("Input recipient account name: ")
+    if sender_account_name in account_holders and recipient_account_name in account_holders:
+        sender_index = account_holders.index(sender_account_name)
+        recipient_index = account_holders.index(recipient_account_name)
+        transfer_amount = float(input("Input transfer amount: "))
+        if balances[sender_index] >= transfer_amount:
+            balances[sender_index] -= transfer_amount
+            balances[recipient_index] += transfer_amount
+            transaction_histories[sender_index] += f'Sent {transfer_amount} '
+            transaction_histories[recipient_index] += f'Received: {transfer_amount} '
+            print(f'Transaction successful!')
+        else:
+            print(f'{account_holders[sender_index]} has insufficient funds for this transfer!')
+    else:
+        print(f'One or both of the accounts don\'t exist in the system')
     # 2. Check if both accounts exist in the system.
     # 3. If both accounts exist, prompt the user for the amount to transfer.
     # 4. Check if the sender has sufficient funds for the transfer.
